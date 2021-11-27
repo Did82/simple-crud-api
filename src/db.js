@@ -17,14 +17,13 @@ class InMemoryDB {
     return pers;
   };
 
-  updateOne = (id, obj) => {
-    const pers = this.db.find((item) => item.id === id);
+  updateOne = (pers, newPers) => {
     const index = this.db.indexOf(pers);
     const updatedPers = {
       id: pers.id,
-      ...obj,
+      ...newPers,
     };
-    this.db.splice(index, 1, updatedPers);
+    this.db[index] = updatedPers;
     return updatedPers;
   };
 
