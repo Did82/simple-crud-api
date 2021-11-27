@@ -28,8 +28,8 @@ class InMemoryDB {
     return updatedPers;
   };
 
-  deleteOne = (id) => {
-    const pers = this.db.find((item) => item.id === id);
+  deleteOne = (pers) => {
+    // const pers = this.db.find((item) => item.id === id);
     const index = this.db.indexOf(pers);
     this.db.splice(index, 1);
   };
