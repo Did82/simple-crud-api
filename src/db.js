@@ -1,9 +1,5 @@
 const person = require('./models/person');
 
-// const db = [];
-
-// module.exports = db;
-
 class InMemoryDB {
   db = [];
 
@@ -28,7 +24,6 @@ class InMemoryDB {
   };
 
   deleteOne = (pers) => {
-    // const pers = this.db.find((item) => item.id === id);
     const index = this.db.indexOf(pers);
     this.db.splice(index, 1);
   };

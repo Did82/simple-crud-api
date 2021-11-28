@@ -1,4 +1,4 @@
-// require('dotenv').config();
+require('dotenv').config();
 const http = require('http');
 const { validate } = require('uuid');
 const InMemoryDB = require('./db');
@@ -10,8 +10,11 @@ const PORT = process.env.PORT || 5000;
 const HOST = process.env.HOST_IP;
 
 const server = http.createServer((req, res) => {
-  // const req.url = req.url;
   const id = req.url.split('/').pop();
+  req.on('error', () => {
+    res.writeHead(500, { 'Content-Type': 'application/json' });
+    res.end(JSON.stringify({ message: 'Error: internal server error or bad request' }));
+  });
 
   if (req.url === '/person' && req.method === 'GET') {
     res.writeHead(200, { 'Content-Type': 'application/json' });
@@ -77,7 +80,7 @@ const server = http.createServer((req, res) => {
     if (validate(id)) {
       const pers = db.findOne(id);
       if (pers) {
-        res.writeHead(200, { 'Content-Type': 'application/json' });
+        res.writeHead(204, { 'Content-Type': 'application/json' });
         db.deleteOne(pers);
         res.end(JSON.stringify({ message: `Person with requested id: ${id} was DELETED` }));
       } else {
@@ -95,5 +98,6 @@ const server = http.createServer((req, res) => {
 });
 
 server.listen(PORT || 5000, HOST, () => {
+  // eslint-disable-next-line no-console
   console.log(`Server running at http://${HOST}:${PORT}/`);
 });
