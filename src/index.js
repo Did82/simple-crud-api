@@ -1,4 +1,4 @@
-require('dotenv').config();
+// require('dotenv').config();
 const http = require('http');
 const { validate } = require('uuid');
 const InMemoryDB = require('./db');
@@ -6,10 +6,8 @@ const isPersonValid = require('./helpers/personValidate');
 
 const db = new InMemoryDB();
 
-const { stdout } = process;
-
 const PORT = process.env.PORT || 5000;
-const { HOST } = process.env;
+const HOST = process.env.HOST_IP;
 
 const server = http.createServer((req, res) => {
   // const req.url = req.url;
@@ -96,6 +94,6 @@ const server = http.createServer((req, res) => {
   }
 });
 
-server.listen(PORT, HOST, () => {
-  stdout.write(`Server running at http://${HOST}:${PORT}/\n`);
+server.listen(PORT || 5000, HOST, () => {
+  console.log(`Server running at http://${HOST}:${PORT}/`);
 });
